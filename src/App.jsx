@@ -1,67 +1,31 @@
 import "./App.css";
 import React from "react";
+import { allow_notification } from "./components/Utility/Service";
+import { AppointmentLists } from "./components/Appointment/AppointmentLists";
+import { MakeAppointment } from "./components/Appointment/MakeAppointment";
 
 function App() {
-  const [form, setForm] = React.useState({ date: "", value: "" });
+  const [status, setStatus] = React.useState(undefined);
 
-  function checkNotificationPromise() {
-    try {
-      Notification.requestPermission().then();
-    } catch (e) {
-      return false;
-    }
-    return true;
-  }
-
-  const allowNotif = () => {
-    if (!("Notification" in window)) {
-      console.log("This browser does not support notifications.");
-    } else {
-      if (checkNotificationPromise()) {
-        Notification.requestPermission().then((permission) => {
-          console.log(permission);
-        });
-      } else {
-        Notification.requestPermission(function (permission) {
-          console.log(permission);
-        });
-      }
-    }
-  };
-
-  const Notif = (e) => {
-    e.preventDefault();
-    const text = form.value;
-    const notification = new Notification("Perriex Says:", {
-      body: text,
-    });
-  };
+  React.useEffect(() => {
+    allow_notification(setStatus);
+  }, []);
 
   return (
     <div className="App">
-      <div>
-        <ul>
-          <li>
-            <h4>{form.date}</h4>
-          </li>
-          <li>
-            <h4>{form.value}</h4>
-          </li>
-        </ul>
-      </div>
-      <button onClick={allowNotif}>Enable notifications</button>
-
-      <form>
-        <input
-          type="datetime-local"
-          onChange={(e) => setForm({ ...form, date: e.target.value })}
-        />
-        <input
-          type="type"
-          onChange={(e) => setForm({ ...form, value: e.target.value })}
-        />
-        <button onClick={Notif}>add</button>
-      </form>
+      {status === true ? (
+        <h2 style={{ color: "green" }}>Your Notification is active!</h2>
+      ) : status === undefined ? (
+        <h2 style={{ color: "orange" }}>Pending!</h2>
+      ) : (
+        <h2 style={{ color: "red" }}>Your Notification is Off!</h2>
+      )}
+      <section>
+        <AppointmentLists />
+      </section>
+      <section>
+        <MakeAppointment />
+      </section>
     </div>
   );
 }
