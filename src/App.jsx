@@ -3,12 +3,14 @@ import React from "react";
 import { allow_notification } from "./components/Utility/Service";
 import { AppointmentLists } from "./components/Appointment/AppointmentLists";
 import { MakeAppointment } from "./components/Appointment/MakeAppointment";
+import { startDB } from "./components/Utility/IndexDB";
 
 function App() {
   const [status, setStatus] = React.useState(undefined);
 
   React.useEffect(() => {
     allow_notification(setStatus);
+    startDB();
   }, []);
 
   return (

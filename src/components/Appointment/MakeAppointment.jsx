@@ -1,22 +1,29 @@
+import { useState } from "react";
+import { startDB } from "../Utility/IndexDB";
+
 export const MakeAppointment = () => {
-  const notification = (e) => {
+  const [form, setForm] = useState({ date: "", text: "" });
+
+  const add = (e) => {
     e.preventDefault();
-    const notification = new Notification("Perriex Says:", {
-      body: "hello",
-    });
+    if (form.date !== "") startDB("insert", form);
   };
 
   return (
     <form>
       <input
+        required
         type="datetime-local"
-        onChange={(e) => setForm({ ...form, date: e.target.value })}
+        onChange={(e) =>
+          setForm({ ...form, date: String(new Date(e.target.value)) })
+        }
       />
       <input
+        value={form.text}
         type="text"
-        onChange={(e) => setForm({ ...form, value: e.target.value })}
+        onChange={(e) => setForm({ ...form, text: e.target.value })}
       />
-      <button onClick={notification}>apply</button>
+      <button onClick={add}>apply</button>
     </form>
   );
 };
