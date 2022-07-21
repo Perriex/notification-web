@@ -4,5 +4,6 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base:"/notification-web/",
   plugins: [react(),VitePWA({ registerType: 'autoUpdate' })]
 })
