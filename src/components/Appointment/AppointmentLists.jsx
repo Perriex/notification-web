@@ -1,9 +1,8 @@
 import React from "react";
-import { useEffect } from "react";
-import { startDB } from "../Utility/IndexDB";
+import { listContext } from "../../App";
 
 export const AppointmentLists = () => {
-  const [list, setLists] = React.useState([]);
+  const context = React.useContext(listContext);
 
   var options = {
     weekday: "long",
@@ -13,10 +12,6 @@ export const AppointmentLists = () => {
     hour: "numeric",
     minute: "numeric",
   };
-
-  useEffect(() => {
-    startDB("get", { set: setLists });
-  }, []);
 
   return (
     <ul style={{ listStyle: "none" }}>
@@ -32,7 +27,7 @@ export const AppointmentLists = () => {
           </span>
         </h3>
       </li>
-      {list.map((item, _id) => {
+      {context.list.map((item, _id) => {
         return (
           <li style={{ color: "black" }} key={item.id}>
             <h5>

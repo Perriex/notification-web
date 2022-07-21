@@ -57,6 +57,13 @@ export const startDB = (act, data) => {
           title: data.text,
           date: data.date,
         });
+        const allRecords = store.getAll();
+        allRecords.onsuccess = function () {
+          console.log(
+            "🚀 ~ file: IndexDB.js ~ line 66 ~ startDB ~ allRecords",
+            allRecords
+          );
+        };
       }
       if (act === "get") {
         const allRecords = store.getAll();

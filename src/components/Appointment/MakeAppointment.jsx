@@ -1,12 +1,17 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { listContext } from "../../App";
 import { startDB } from "../Utility/IndexDB";
 
 export const MakeAppointment = () => {
   const [form, setForm] = useState({ date: "", text: "" });
+  const context = React.useContext(listContext);
 
   const add = (e) => {
     e.preventDefault();
-    if (form.date !== "") startDB("insert", form);
+    if (form.date !== "") {
+      startDB("insert", form);
+      startDB("get", { set: context.setList });
+    }
   };
 
   return (
